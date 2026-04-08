@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
     <title>Darts</title>
 </head>
 
@@ -40,21 +39,18 @@
         <div class="start-game-container" id="sg-container">
             <div class="start-game">
                 <h2 class="heading-2">Neues Spiel Starten</h2>
-                <form action="#" method="post" class="start-game-form">
-                    <div class="sg-input-feld">
-                        <label class="sg-label" for="player1">Spieler 1:</label>
-                        <input class="sg-input" type="text" id="player1" name="player1" required>
+                <form action="#" method="post" class="start-game-form" id="player-form">
+                    <div id="players-grid" class="players-grid">
+                        <!-- Player fields will be dynamically added here -->
                     </div>
 
-                    <div class="sg-input-feld">
-                        <label class="sg-label" for="player1">Spieler 1:</label>
-                        <input class="sg-input" type="text" id="player1" name="player1" required>
-                    </div>
-
+                    <button type="button" id="add-player-button" class="submit-button">Spieler hinzufügen</button>
                     <button type="submit" class="submit-button">Starten</button>
                 </form>
             </div>
         </div>
+
+        <script src="script.js"></script>
 </body>
 
 </html>

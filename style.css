@@ -158,6 +158,53 @@ body {
     gap: 20px;
 }
 
+/* grid for player inputs: two columns, last odd item spans full width */
+.players-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.players-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.player-input-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.player-input-wrapper .sg-input-feld {
+    flex: 1;
+    margin: 0;
+}
+
+.player-delete-btn {
+    background-color: rgba(255, 107, 107, 0.7);
+    border: 1px solid rgba(255, 107, 107, 0.9);
+    color: white;
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.player-delete-btn:hover {
+    background-color: rgba(255, 107, 107, 1);
+    transform: scale(1.05);
+}
+
+.player-delete-btn:active {
+    transform: scale(0.98);
+}
+
 .start-game {
     display: flex;
     flex-direction: column;
