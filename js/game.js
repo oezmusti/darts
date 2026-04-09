@@ -59,7 +59,7 @@ const Game = (() => {
 
         submitThrow(totalPoints, throwsDetails = []) {
             const player = this.getCurrentPlayer();
-            
+
             // Check for bust
             if (player.currentPoints - totalPoints < 0) {
                 return { success: false, message: '❌ BUST! Punkte nicht abgezogen.' };
@@ -67,7 +67,7 @@ const Game = (() => {
 
             // Deduct points
             player.currentPoints -= totalPoints;
-            
+
             // Store throw data with details
             throwsDetails.forEach(t => {
                 player.throws.push({
@@ -83,7 +83,7 @@ const Game = (() => {
                 player.finished = true;
                 player.finishedRank = gameState.finishedOrder.length + 1;
                 gameState.finishedOrder.push(player.name);
-                
+
                 // Check if game is over
                 const activePlayers = gameState.players.filter(p => !p.finished).length;
                 if (activePlayers === 0) {

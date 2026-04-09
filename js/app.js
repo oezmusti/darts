@@ -8,7 +8,7 @@ const App = (() => {
     function navigateTo(page) {
         //Hide all pages
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        
+
         // Show requested page
         document.getElementById(page + 'Page').classList.add('active');
 
@@ -142,7 +142,7 @@ const App = (() => {
 
     function updateGameDisplay() {
         const player = Game.getCurrentPlayer();
-        
+
         // Update header for both mobile and desktop
         const mobileHeader = document.getElementById('currentPlayerDisplay');
         const desktopHeader = document.getElementById('currentPlayerDisplay2');
@@ -176,14 +176,14 @@ const App = (() => {
         if (selectedThrows.length === 0) return;
 
         const totalPoints = UI.getTotalPoints();
-        
+
         // Convert selectedThrows array to throw data with full details
         const throwsDetails = selectedThrows.map(t => ({
             baseValue: t.baseValue,
             multiplier: t.multiplier,
             totalPoints: t.totalPoints
         }));
-        
+
         // Pass full throw details to submitThrow
         const result = Game.submitThrow(totalPoints, throwsDetails);
 
@@ -193,7 +193,7 @@ const App = (() => {
         }
 
         UI.showMessage(result.message, 'success');
-        
+
         // Clear throw selection for next round
         UI.resetThrows();
 
@@ -217,14 +217,14 @@ const App = (() => {
     function showGameResults() {
         const finishedOrder = Game.getFinishedOrder();
         const allPlayers = Game.getAllPlayers();
-        
+
         const resultsList = document.getElementById('resultsList');
         resultsList.innerHTML = '';
 
         finishedOrder.forEach((playerName, index) => {
             const player = allPlayers.find(p => p.name === playerName);
             const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
-            
+
             const div = document.createElement('div');
             div.className = 'card';
             const isWinner = index === 0;
@@ -283,7 +283,7 @@ const App = (() => {
             card.style.justifyContent = 'space-between';
             card.style.alignItems = 'flex-start';
             card.style.cursor = 'pointer';
-            
+
             const content = document.createElement('div');
             content.style.flex = '1';
             content.innerHTML = `
@@ -292,16 +292,16 @@ const App = (() => {
                 <p style="color: var(--gray-light); font-size: 0.85rem; margin-bottom: 0.75rem;">Spieler: ${game.players.map(p => p.name).join(', ')}</p>
                 <div style="border-top: 1px solid rgba(60, 130, 246, 0.2); padding-top: 0.75rem;">
                     ${game.finishedOrder.map((name, idx) => {
-                        const isWinner = idx === 0;
-                        return `
+                const isWinner = idx === 0;
+                return `
                             <p style="color: ${isWinner ? 'var(--green-success)' : 'var(--white)'}; font-size: 0.9rem; margin: 0.25rem 0; font-weight: ${isWinner ? '600' : '400'};">
                                 <strong>${idx + 1}. ${name}</strong>
                             </p>
                         `;
-                    }).join('')}
+            }).join('')}
                 </div>
             `;
-            
+
             const menuBtn = document.createElement('button');
             menuBtn.style.background = 'none';
             menuBtn.style.border = 'none';
@@ -318,7 +318,7 @@ const App = (() => {
                     initHistoryPage();
                 }
             };
-            
+
             card.appendChild(content);
             card.appendChild(menuBtn);
             container.appendChild(card);

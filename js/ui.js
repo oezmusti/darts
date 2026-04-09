@@ -77,11 +77,11 @@ const UI = (() => {
             let totalPoints = 0;
             selectedThrows.forEach((throwData, index) => {
                 const span = document.createElement('span');
-                
+
                 // Farbe basierend auf Multiplikator
                 let bgColor = 'rgba(16, 185, 129, 0.3)'; // Green für Single
                 let borderColor = 'var(--green-success)';
-                
+
                 if (throwData.multiplier === 2) {
                     bgColor = 'rgba(245, 158, 11, 0.3)'; // Orange für Double
                     borderColor = 'var(--yellow-warn)';
@@ -89,7 +89,7 @@ const UI = (() => {
                     bgColor = 'rgba(239, 68, 68, 0.3)'; // Red für Triple
                     borderColor = 'var(--red-error)';
                 }
-                
+
                 span.style.cssText = `background: ${bgColor}; padding: 0.5rem 1rem; border-radius: 0.25rem; border: 2px solid ${borderColor}; cursor: pointer; color: var(--white); font-weight: 600;`;
                 span.textContent = throwData.totalPoints;
                 span.onclick = () => {
@@ -208,7 +208,7 @@ const UI = (() => {
                     div.style.background = 'rgba(26, 40, 73, 0.6)';
                     div.style.borderRadius = '0.25rem';
                     div.style.fontSize = '0.85rem';
-                    
+
                     let multiplierText = 'Single';
                     let color = 'var(--green-success)';
                     if (throwData.multiplier === 2) {
@@ -218,7 +218,7 @@ const UI = (() => {
                         multiplierText = 'Triple';
                         color = 'var(--red-error)';
                     }
-                    
+
                     div.innerHTML = `
                         <span style="color: var(--gray-light);">${throwData.baseValue} (${multiplierText})</span>
                         <span style="color: ${color}; font-weight: 600;">${throwData.totalPoints}</span>
@@ -232,7 +232,7 @@ const UI = (() => {
             const display = document.getElementById('messageDisplay');
             display.textContent = message;
             display.style.display = 'block';
-            
+
             if (type === 'success') {
                 display.style.background = 'rgba(16, 185, 129, 0.2)';
                 display.style.color = 'var(--green-success)';
