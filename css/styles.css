@@ -1,0 +1,577 @@
+/* ============================================
+   DARTS GAME - DARKMODE MARINEBLAU THEME
+   ============================================ */
+
+:root {
+    --primary-dark: #0f1419;
+    --primary-navy: #1a2849;
+    --secondary-blue: #2563eb;
+    --accent-blue: #3b82f6;
+    --bright-blue: #60a5fa;
+    --white: #ffffff;
+    --gray-light: #e5e7eb;
+    --gray-dark: #374151;
+    --green-success: #10b981;
+    --red-error: #ef4444;
+    --yellow-warn: #f59e0b;
+    
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', sans-serif;
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-navy) 100%);
+    color: var(--white);
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   CONTAINERS & LAYOUT
+   ============================================ */
+
+.container {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.page {
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease-in-out;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page.active {
+    display: flex;
+}
+
+.page-content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.game-layout-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.game-layout-2col > div {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Desktop: No scrolling */
+@media (min-width: 1025px) {
+    .page {
+        overflow: hidden;
+    }
+    
+    .page-content {
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .game-col-left {
+        max-height: calc(100vh - 200px) !important;
+    }
+    
+    .game-col-right {
+        display: flex !important;
+        max-height: calc(100vh - 200px) !important;
+    }
+    
+    #currentPlayerDisplay2 {
+        display: block;
+    }
+    
+    #playersGrid2 {
+        display: grid;
+    }
+    
+    #throwsHistory2 {
+        display: flex;
+    }
+    
+    #checkoutInfo2 {
+        display: block !important;
+    }
+    
+    .game-player-header {
+        display: none !important;
+    }
+    
+    .game-players-grid {
+        display: none !important;
+    }
+}
+
+/* Mobile optimization */
+@media (max-width: 1024px) {
+    .game-layout-2col {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        height: auto;
+    }
+    
+    .game-col-right {
+        display: none !important;
+    }
+    
+    .game-col-left {
+        max-height: none !important;
+    }
+    
+    .page {
+        padding: 1rem;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .page-content {
+        height: auto;
+        overflow: visible;
+    }
+    
+    .game-player-header {
+        display: block !important;
+        order: -1;
+    }
+    
+    .game-players-grid {
+        display: block !important;
+        order: -0.5;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+header {
+    background: rgba(26, 40, 73, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(60, 130, 246, 0.2);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--bright-blue);
+    text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+}
+
+.header-nav {
+    display: flex;
+    gap: 1rem;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--secondary-blue), var(--accent-blue));
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: rgba(60, 130, 246, 0.2);
+    color: var(--bright-blue);
+    border: 2px solid var(--bright-blue);
+}
+
+.btn-secondary:hover {
+    background: rgba(60, 130, 246, 0.3);
+}
+
+.btn-danger {
+    background: var(--red-error);
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+.btn-success {
+    background: var(--green-success);
+    color: var(--white);
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--bright-blue);
+    border: 1px solid var(--bright-blue);
+}
+
+.btn-ghost:hover {
+    background: rgba(96, 165, 250, 0.1);
+}
+
+/* Multiplier Button Colors */
+.multiplier-btn[data-mult="1"] {
+    background: var(--green-success);
+    color: var(--white);
+    border: none;
+}
+
+.multiplier-btn[data-mult="1"]:hover {
+    background: #059669;
+}
+
+.multiplier-btn[data-mult="2"] {
+    background: var(--yellow-warn);
+    color: var(--white);
+    border: none;
+}
+
+.multiplier-btn[data-mult="2"]:hover {
+    background: #d97706;
+}
+
+.multiplier-btn[data-mult="3"] {
+    background: var(--red-error);
+    color: var(--white);
+    border: none;
+}
+
+.multiplier-btn[data-mult="3"]:hover {
+    background: #dc2626;
+}
+
+.multiplier-btn.btn-success {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ============================================
+   CARDS & BOXES
+   ============================================ */
+
+.card {
+    background: rgba(26, 40, 73, 0.6);
+    border: 1px solid rgba(60, 130, 246, 0.2);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+}
+
+.card:hover {
+    border-color: rgba(60, 130, 246, 0.5);
+    background: rgba(26, 40, 73, 0.8);
+}
+
+.card.active {
+    border-color: var(--bright-blue);
+    background: rgba(96, 165, 250, 0.1);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gray-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input, select, textarea {
+    background: rgba(15, 20, 25, 0.6);
+    border: 2px solid rgba(60, 130, 246, 0.2);
+    color: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--bright-blue);
+    background: rgba(15, 20, 25, 0.8);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
+}
+
+/* ============================================
+   MODAL / OVERLAY
+   ============================================ */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, var(--primary-navy), rgba(26, 40, 73, 0.9));
+    border: 1px solid rgba(60, 130, 246, 0.3);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(60, 130, 246, 0.2);
+    padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    color: var(--bright-blue);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--bright-blue);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-btn:hover {
+    color: var(--red-error);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--bright-blue);
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+p {
+    line-height: 1.6;
+    color: var(--gray-light);
+}
+
+/* ============================================
+   GRID LAYOUTS
+   ============================================ */
+
+.grid {
+    display: grid;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-4 { margin-top: 2rem; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
+.gap-1 { gap: 0.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-3 { gap: 1.5rem; }
+.gap-4 { gap: 2rem; }
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-center { align-items: center; justify-content: center; }
+.flex-between { justify-content: space-between; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .page {
+        padding: 1rem;
+    }
+    
+    header {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .modal-content {
+        padding: 1.5rem;
+    }
+    
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-3 {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Setup page - vertical buttons */
+    .btn {
+        width: 100%;
+    }
+    
+    .form-group button {
+        width: 100%;
+    }
+}
