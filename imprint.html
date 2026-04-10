@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Darts Tracker - Impressum</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo"><span class="logo-icon">🎯</span><span class="logo-text">DARTS TRACKER</span></div>
+            <div class="header-menu">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <nav class="header-nav" id="headerNav">
+                    <button class="btn btn-ghost" onclick="window.location.href='index.html'">🏠 Home</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Dropdown -->
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="menu-item" onclick="window.location.href='index.html'">🏠 Home</button>
+            <button class="menu-item" onclick="window.location.href='imprint.html'">📄 Impressum</button>
+            <button class="menu-item" onclick="window.location.href='privacy.html'">🔒 Datenschutz</button>
+        </div>
+
+        <!-- PAGES CONTAINER -->
+        <div style="flex: 1; overflow-y: auto;">
+            <div class="page active" style="display: flex;">
+                <div class="page-content" style="max-width: 800px;">
+                    <h1 style="text-align: center;">Impressum</h1>
+                    <button class="btn btn-ghost" onclick="window.location.href='index.html'"
+                        style="margin-bottom: 2rem;">← Zurück</button>
+                    <div class="card" style="padding: 2rem;">
+                        <h3>Darts Tracker</h3>
+                        <p style="margin-top: 1rem;">
+                            Eine einfache Web-Anwendung zur Verfolgung von Dart-Spielen und -Statistiken.
+                        </p>
+                        <h3 style="margin-top: 2rem;">Entwickler</h3>
+                        <p>Diese Anwendung wurde als persönliches Projekt entwickelt.</p>
+                        <h3 style="margin-top: 2rem;">Haftungsausschluss</h3>
+                        <p>
+                            Die Nutzung dieser Anwendung erfolgt auf eigene Verantwortung. Der Entwickler übernimmt
+                            keine Haftung für Datenverlust oder andere Schäden.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu toggle functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (mobileMenu && !mobileMenu.contains(e.target) && e.target !== menuToggle) {
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

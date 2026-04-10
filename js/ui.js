@@ -15,6 +15,14 @@ const UI = (() => {
             const dartBoard = document.getElementById('dartBoard');
             dartBoard.innerHTML = '';
 
+            // Add 0
+            const btn0 = document.createElement('button');
+            btn0.className = 'btn btn-secondary dart-number';
+            btn0.textContent = '0';
+            btn0.dataset.value = 0;
+            btn0.onclick = () => this.selectThrow(0, onNumberClick);
+            dartBoard.appendChild(btn0);
+
             // Regular numbers
             DART_BOARD.forEach(num => {
                 const btn = document.createElement('button');
@@ -31,6 +39,7 @@ const UI = (() => {
             bull25.textContent = '25';
             bull25.style.background = 'rgba(239, 68, 68, 0.3)';
             bull25.dataset.value = BULLSEYE_OUTER;
+            bull25.dataset.singleOnly = 'true';
             bull25.onclick = () => this.selectThrow(BULLSEYE_OUTER, onNumberClick);
             dartBoard.appendChild(bull25);
 
@@ -40,6 +49,7 @@ const UI = (() => {
             bull50.textContent = '50';
             bull50.style.background = 'rgba(239, 68, 68, 0.5)';
             bull50.dataset.value = BULLSEYE_INNER;
+            bull50.dataset.singleOnly = 'true';
             bull50.onclick = () => this.selectThrow(BULLSEYE_INNER, onNumberClick);
             dartBoard.appendChild(bull50);
         },
@@ -58,6 +68,14 @@ const UI = (() => {
         },
 
         selectThrow(value, onThrowSelected) {
+            // 25 und 50 nur als Single erlauben
+            if ((value === 25 || value === 50) && currentMultiplier !== 1) {
+                // Force auf Single
+                currentMultiplier = 1;
+                document.querySelectorAll('.multiplier-btn').forEach(b => b.classList.remove('btn-success'));
+                document.querySelector('[data-mult="1"]').classList.add('btn-success');
+            }
+
             // Immer neuen Wurf hinzufügen (mehrfache gleiche erlauben)
             if (selectedThrows.length < 3) {
                 selectedThrows.push({
@@ -102,7 +120,7 @@ const UI = (() => {
 
             // Update confirm button
             const confirmBtn = document.getElementById('confirmThrowBtn');
-            confirmBtn.textContent = `✓ Bestätigen (${totalPoints} Punkte)`;
+            confirmBtn.textContent = `✓`;
             confirmBtn.disabled = selectedThrows.length === 0;
         },
 

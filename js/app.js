@@ -2,8 +2,162 @@
 // APP MODULE - Main Application Controller
 // ============================================
 
+// Custom Alert/Modal System
+function showAlert(message) {
+    const modal = document.createElement('div');
+    modal.className = 'custom-alert-modal';
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    `;
+
+    const content = document.createElement('div');
+    content.style.cssText = `
+        background: linear-gradient(135deg, #1a2849, rgba(26, 40, 73, 0.9));
+        border: 1px solid rgba(60, 130, 246, 0.3);
+        border-radius: 1rem;
+        padding: 2rem;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+    `;
+
+    const text = document.createElement('p');
+    text.style.cssText = `
+        color: #e5e7eb;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+    `;
+    text.textContent = message;
+
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-primary';
+    btn.textContent = 'OK';
+    btn.style.width = '100%';
+    btn.onclick = () => modal.remove();
+
+    content.appendChild(text);
+    content.appendChild(btn);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+}
+
+// Custom Confirm Modal System
+function showConfirm(message) {
+    return new Promise((resolve) => {
+        const modal = document.createElement('div');
+        modal.className = 'custom-confirm-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        `;
+
+        const content = document.createElement('div');
+        content.style.cssText = `
+            background: linear-gradient(135deg, #1a2849, rgba(26, 40, 73, 0.9));
+            border: 1px solid rgba(60, 130, 246, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        `;
+
+        const text = document.createElement('p');
+        text.style.cssText = `
+            color: #e5e7eb;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        `;
+        text.textContent = message;
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = `
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        `;
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn btn-ghost';
+        cancelBtn.textContent = 'Abbrechen';
+        cancelBtn.style.flex = '1';
+        cancelBtn.onclick = () => {
+            modal.remove();
+            resolve(false);
+        };
+
+        const okBtn = document.createElement('button');
+        okBtn.className = 'btn btn-primary';
+        okBtn.textContent = 'OK';
+        okBtn.style.flex = '1';
+        okBtn.onclick = () => {
+            modal.remove();
+            resolve(true);
+        };
+
+        buttonContainer.appendChild(cancelBtn);
+        buttonContainer.appendChild(okBtn);
+        content.appendChild(text);
+        content.appendChild(buttonContainer);
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+    });
+}
+
 const App = (() => {
     const MAX_PLAYERS = 4;
+
+    // Initialize menu toggle
+    function initMenuToggle() {
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        if (!menuToggle || !mobileMenu) {
+            console.warn('Menu elements not found');
+            return;
+        }
+
+        // Toggle menu on button click
+        menuToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a menu item
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (mobileMenu && !mobileMenu.contains(e.target) && e.target !== menuToggle) {
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                }
+            }
+        });
+    }
 
     function navigateTo(page) {
         //Hide all pages
@@ -18,8 +172,6 @@ const App = (() => {
         // Initialize page-specific logic
         if (page === 'setup') {
             initSetupPage();
-        } else if (page === 'history') {
-            initHistoryPage();
         }
     }
 
@@ -70,7 +222,7 @@ const App = (() => {
         const count = container.children.length + 1;
 
         if (count > MAX_PLAYERS) {
-            alert('Maximum 4 Spieler!');
+            showAlert('Maximum 4 Spieler!');
             return;
         }
 
@@ -79,10 +231,12 @@ const App = (() => {
         wrapper.style.gap = '0.5rem';
         wrapper.style.alignItems = 'flex-end';
         wrapper.innerHTML = `
-            <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
-                <input type="text" placeholder="Spielername" class="player-input" style="width: 100%;" required>
+            <div style="width: 100%; display: flex; flex-direction: row;">
+                <div style="flex: 1; display: flex; flex-direction: column;">
+                    <input type="text" placeholder="Spielername" class="player-input" style="width: 90%;" required>
+                </div>
+                <button type="button" class="btn btn-danger" style="height: fit-content; width: 10%; text-align: center;" onclick="this.parentElement.parentElement.remove();">✕</button>
             </div>
-            <button type="button" class="btn btn-danger" style="padding: 0.75rem 1rem; height: fit-content;" onclick="this.parentElement.remove();">✕</button>
         `;
         container.appendChild(wrapper);
     }
@@ -94,7 +248,7 @@ const App = (() => {
         if (isNaN(startingPoints)) {
             const customPoints = parseInt(document.getElementById('customPoints').value);
             if (isNaN(customPoints) || customPoints < 1) {
-                alert('Bitte geben Sie gültige Punkte ein!');
+                showAlert('Bitte geben Sie gültige Punkte ein!');
                 return;
             }
             startingPoints = customPoints;
@@ -106,7 +260,7 @@ const App = (() => {
             .filter(name => name !== '');
 
         if (playerNames.length < 2) {
-            alert('Mindestens 2 Spieler erforderlich!');
+            showAlert('Mindestens 2 Spieler erforderlich!');
             return;
         }
 
@@ -202,10 +356,26 @@ const App = (() => {
                 showGameResults();
             }, 2000);
         } else if (result.playerFinished) {
-            setTimeout(() => {
-                Game.nextPlayer();
-                updateGameDisplay();
-            }, 1500);
+            // Check if only one player is left
+            const activePlayers = Game.getActivePlayersCount();
+            if (activePlayers === 1) {
+                setTimeout(() => {
+                    showConfirm('Nur noch ein Spieler übrig! Runde beenden?').then((confirmed) => {
+                        if (confirmed) {
+                            Game.endGame();
+                            showGameResults();
+                        } else {
+                            Game.nextPlayer();
+                            updateGameDisplay();
+                        }
+                    });
+                }, 1500);
+            } else {
+                setTimeout(() => {
+                    Game.nextPlayer();
+                    updateGameDisplay();
+                }, 1500);
+            }
         } else {
             setTimeout(() => {
                 Game.nextPlayer();
@@ -237,8 +407,6 @@ const App = (() => {
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">${medals[index] || '❌'}</div>
                     <h3 style="margin: 0 0 0.5rem 0; ${isWinner ? 'color: var(--green-success);' : ''}">${playerName}</h3>
                     <p style="color: var(--gray-light); margin-bottom: 0.5rem;">Platz ${index + 1}</p>
-                    <p style="color: var(--gray-light); font-size: 0.9rem;">Punkte übrig: ${player.currentPoints}</p>
-                    <p style="color: var(--gray-light); font-size: 0.9rem;">Würfe: ${player.throws}</p>
                 </div>
             `;
             resultsList.appendChild(div);
@@ -248,80 +416,11 @@ const App = (() => {
     }
 
     function endGame() {
-        if (confirm('Spiel wirklich beenden?')) {
-            Game.endGame();
-            showGameResults();
-        }
-    }
-
-    function initHistoryPage() {
-        const games = Storage.getAllGames();
-        const container = document.getElementById('historyContainer');
-        container.innerHTML = '';
-
-        if (games.length === 0) {
-            const noGames = document.createElement('p');
-            noGames.style.textAlign = 'center';
-            noGames.style.color = 'var(--gray-light)';
-            noGames.textContent = 'Noch keine Spiele gespeichert';
-            container.appendChild(noGames);
-            return;
-        }
-
-        games.reverse().forEach((game, index) => {
-            const date = new Date(game.savedAt || game.date).toLocaleDateString('de-DE', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.display = 'flex';
-            card.style.justifyContent = 'space-between';
-            card.style.alignItems = 'flex-start';
-            card.style.cursor = 'pointer';
-
-            const content = document.createElement('div');
-            content.style.flex = '1';
-            content.innerHTML = `
-                <h3 style="color: var(--bright-blue); margin: 0 0 0.5rem 0; font-size: 1.1rem;">${game.title}</h3>
-                <p style="color: var(--gray-light); font-size: 0.9rem; margin: 0 0 1rem 0;">📅 ${date}</p>
-                <p style="color: var(--gray-light); font-size: 0.85rem; margin-bottom: 0.75rem;">Spieler: ${game.players.map(p => p.name).join(', ')}</p>
-                <div style="border-top: 1px solid rgba(60, 130, 246, 0.2); padding-top: 0.75rem;">
-                    ${game.finishedOrder.map((name, idx) => {
-                const isWinner = idx === 0;
-                return `
-                            <p style="color: ${isWinner ? 'var(--green-success)' : 'var(--white)'}; font-size: 0.9rem; margin: 0.25rem 0; font-weight: ${isWinner ? '600' : '400'};">
-                                <strong>${idx + 1}. ${name}</strong>
-                            </p>
-                        `;
-            }).join('')}
-                </div>
-            `;
-
-            const menuBtn = document.createElement('button');
-            menuBtn.style.background = 'none';
-            menuBtn.style.border = 'none';
-            menuBtn.style.color = 'var(--gray-light)';
-            menuBtn.style.fontSize = '1.5rem';
-            menuBtn.style.cursor = 'pointer';
-            menuBtn.style.padding = '0.5rem';
-            menuBtn.style.marginLeft = '1rem';
-            menuBtn.textContent = '⋯';
-            menuBtn.onclick = (e) => {
-                e.stopPropagation();
-                if (confirm('Dieses Spiel aus der Historie löschen?')) {
-                    Storage.deleteGame(games.length - 1 - index);
-                    initHistoryPage();
-                }
-            };
-
-            card.appendChild(content);
-            card.appendChild(menuBtn);
-            container.appendChild(card);
+        showConfirm('Spiel wirklich beenden?').then((confirmed) => {
+            if (confirmed) {
+                Game.endGame();
+                showGameResults();
+            }
         });
     }
 
@@ -330,6 +429,9 @@ const App = (() => {
             // Set up page navigation
             window.navigateTo = navigateTo;
             window.endGame = endGame;
+
+            // Initialize menu toggle
+            initMenuToggle();
 
             // Initialize home page as active
             navigateTo('home');

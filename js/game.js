@@ -173,6 +173,10 @@ const Game = (() => {
             return gameState.players;
         },
 
+        getActivePlayersCount() {
+            return gameState.players.filter(p => !p.finished).length;
+        },
+
         endGame() {
             // Add remaining players to finished order
             gameState.players.forEach(player => {
