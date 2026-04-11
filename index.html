@@ -14,19 +14,19 @@
         <header>
             <div class="logo"><span class="logo-icon">🎯</span><span class="logo-text">DARTS TRACKER</span></div>
             <div class="header-menu">
-                <button class="menu-toggle" id="menuToggle">☰</button>
-                <nav class="header-nav" id="headerNav">
-                    <!-- Navigation wird dynamisch gefüllt -->
+                <button class="menu-toggle" onclick="toggleNav()">☰</button>
+                <nav class="header-nav hidden" id="headerNavigation">
+                    <div class="header-nav-inner">
+                        <div class="closebutton-nav" onclick="toggleNav()">✕</div>
+                        <div class="nav-items">
+                            <button class="nav-item" onclick="navigateTo('home')">Home</button>
+                            <a href="imprint.html" class="nav-item nav-text">Impressum</a>
+                            <a href="privacy.html" class="nav-item nav-text">Datenschutz</a>
+                        </div>
+                    </div>
                 </nav>
             </div>
         </header>
-
-        <!-- Mobile Menu Dropdown -->
-        <div class="mobile-menu" id="mobileMenu">
-            <button class="menu-item" onclick="navigateTo('home')">🏠 Home</button>
-            <button class="menu-item" onclick="window.location.href='imprint.html'">📄 Impressum</button>
-            <button class="menu-item" onclick="window.location.href='privacy.html'">🔒 Datenschutz</button>
-        </div>
 
         <!-- PAGES CONTAINER -->
         <div style="flex: 1; overflow-y: auto;">

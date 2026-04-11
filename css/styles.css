@@ -40,6 +40,10 @@ body {
     justify-content: center;
 }
 
+.hidden {
+    display: none !important;
+}
+
 /* ============================================
    CONTAINERS & LAYOUT
    ============================================ */
@@ -217,12 +221,10 @@ header {
 .header-menu {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    position: relative;
 }
 
 .menu-toggle {
-    display: none;
+    display: block;
     background: none;
     border: none;
     font-size: 1.5rem;
@@ -233,7 +235,56 @@ header {
 
 .header-nav {
     display: flex;
-    gap: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 100vh;
+    background: rgba(26, 40, 73);
+    flex-direction: column;
+}
+
+.header-nav-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+}
+
+.closebutton-nav {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: var(--bright-blue);
+    cursor: pointer;
+}
+
+.nav-items {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: var(--bright-blue);
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 1rem;
+    text-align: left;
+    transition: var(--transition);
+}
+
+.nav-item:hover {
+    background: rgba(60, 130, 246, 0.2);
+}
+
+.nav-text {
+    color: var(--bright-blue);
+    text-decoration: none;
 }
 
 .mobile-menu {
@@ -685,10 +736,6 @@ p {
 
     .menu-toggle {
         display: block;
-    }
-
-    .header-nav {
-        display: none;
     }
 
     .mobile-menu {

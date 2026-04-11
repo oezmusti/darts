@@ -2,6 +2,12 @@
 // APP MODULE - Main Application Controller
 // ============================================
 
+//menue
+function toggleNav() {
+    const nav = document.getElementById('headerNavigation');
+    nav.classList.toggle('hidden');
+}
+
 // Custom Alert/Modal System
 function showAlert(message) {
     const modal = document.createElement('div');
@@ -159,6 +165,24 @@ const App = (() => {
         });
     }
 
+    function handleCustomPointsChange(e) {
+        const customGroup = document.getElementById('customPointsGroup');
+        if (e.target.value === 'custom') {
+            customGroup.style.display = 'flex';
+            document.getElementById('customPoints').focus();
+        } else {
+            customGroup.style.display = 'none';
+        }
+    }
+
+    function updateHeaderNav(page) {
+        // Close navigation menu when navigating
+        const nav = document.getElementById('headerNavigation');
+        if (nav) {
+            nav.classList.add('hidden');
+        }
+    }
+
     function navigateTo(page) {
         //Hide all pages
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -175,43 +199,27 @@ const App = (() => {
         }
     }
 
-    function updateHeaderNav(currentPage) {
-        const nav = document.getElementById('headerNav');
-        nav.innerHTML = '';
-
-        if (currentPage !== 'home') {
-            const homeBtn = document.createElement('button');
-            homeBtn.className = 'btn btn-ghost';
-            homeBtn.textContent = '🏠 Home';
-            homeBtn.onclick = () => navigateTo('home');
-            nav.appendChild(homeBtn);
-        }
-    }
-
     function initSetupPage() {
         const playersContainer = document.getElementById('playersContainer');
         playersContainer.innerHTML = '';
 
-        // Add 2 default players
+        // Add 1 default player
         addPlayerField();
-        addPlayerField();
 
-        // Handle custom points
-        document.getElementById('startingPoints').addEventListener('change', function (e) {
-            const customGroup = document.getElementById('customPointsGroup');
-            if (e.target.value === 'custom') {
-                customGroup.style.display = 'flex';
-                document.getElementById('customPoints').focus();
-            } else {
-                customGroup.style.display = 'none';
-            }
-        });
+        // Clone form to remove all old event listeners
+        const gameSetupForm = document.getElementById('gameSetupForm');
+        const formClone = gameSetupForm.cloneNode(true);
+        gameSetupForm.parentNode.replaceChild(formClone, gameSetupForm);
 
-        // Add player button
-        document.getElementById('addPlayerBtn').addEventListener('click', addPlayerField);
+        // Now get references to the new elements
+        const startingPointsSelect = document.getElementById('startingPoints');
+        const addPlayerBtn = document.getElementById('addPlayerBtn');
+        const newGameSetupForm = document.getElementById('gameSetupForm');
 
-        // Form submission
-        document.getElementById('gameSetupForm').addEventListener('submit', function (e) {
+        // Add event listeners to the new elements
+        startingPointsSelect.addEventListener('change', handleCustomPointsChange);
+        addPlayerBtn.addEventListener('click', addPlayerField);
+        newGameSetupForm.addEventListener('submit', function (e) {
             e.preventDefault();
             startGameFromSetup();
         });
@@ -259,8 +267,8 @@ const App = (() => {
             .map(input => input.value.trim())
             .filter(name => name !== '');
 
-        if (playerNames.length < 2) {
-            showAlert('Mindestens 2 Spieler erforderlich!');
+        if (playerNames.length < 1) {
+            showAlert('Mindestens 1 Spieler erforderlich!');
             return;
         }
 
