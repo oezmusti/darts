@@ -363,38 +363,38 @@
 
             <h3>Module-Struktur</h3>
             <div class="code-block">
-darts/
-├── index.html          (Hauptseite - UI & HTML)
-├── history.html        (Spiel-Historie)
-├── docs.html          (Diese Dokumentation)
-├── css/
-│   └── styles.css     (Styling)
-├── js/
-│   ├── app.js         (Navigations- & Modal-Logik)
-│   ├── game.js        (Kern-Spiel-Logik)
-│   ├── ui.js          (UI-Rendering & Events)
-│   └── storage.js     (LocalStorage-Manager)
-└── assets/
-    └── icons/         (App-Icons)
+                darts/
+                ├── index.html (Hauptseite - UI & HTML)
+                ├── history.html (Spiel-Historie)
+                ├── docs.html (Diese Dokumentation)
+                ├── css/
+                │ └── styles.css (Styling)
+                ├── js/
+                │ ├── app.js (Navigations- & Modal-Logik)
+                │ ├── game.js (Kern-Spiel-Logik)
+                │ ├── ui.js (UI-Rendering & Events)
+                │ └── storage.js (LocalStorage-Manager)
+                └── assets/
+                └── icons/ (App-Icons)
             </div>
 
             <h3>Modul-Abhängigkeiten</h3>
             <div class="dependency-tree">
-index.html
-├── (lädt) app.js
-│   ├── nutzt → Game
-│   ├── nutzt → UI
-│   └── nutzt → Storage
-│
-├── (lädt) game.js
-│   └── (unabhängig, pure logic)
-│
-├── (lädt) ui.js
-│   ├── nutzt → Game
-│   └── nutzt → UI
-│
-└── (lädt) storage.js
-    └── (nutzt Browser API: localStorage)
+                index.html
+                ├── (lädt) app.js
+                │ ├── nutzt → Game
+                │ ├── nutzt → UI
+                │ └── nutzt → Storage
+                │
+                ├── (lädt) game.js
+                │ └── (unabhängig, pure logic)
+                │
+                ├── (lädt) ui.js
+                │ ├── nutzt → Game
+                │ └── nutzt → UI
+                │
+                └── (lädt) storage.js
+                └── (nutzt Browser API: localStorage)
             </div>
 
             <h3>Informations-Fluss</h3>
@@ -497,23 +497,23 @@ index.html
 
             <h3>Kern-Game-Logik:</h3>
             <div class="code-block">
-gameState = {
-    title: String,              // Spiel-Name
-    startingPoints: Number,     // Start-Punkte (z.B. 501)
-    currentRound: Number,       // Aktuelle Runde
-    players: [                  // Array von Spielern
-        {
-            name: String,
-            currentPoints: Number,
-            throws: [],         // Array aller Würfe
-            finished: Boolean,
-            finishedRank: Number
-        }
-    ],
-    currentPlayerIndex: Number, // Index des aktiven Spielers
-    finishedOrder: [],          // Reihenfolge der Beendigung
-    history: []                 // Spiel-Historie
-};
+                gameState = {
+                title: String, // Spiel-Name
+                startingPoints: Number, // Start-Punkte (z.B. 501)
+                currentRound: Number, // Aktuelle Runde
+                players: [ // Array von Spielern
+                {
+                name: String,
+                currentPoints: Number,
+                throws: [], // Array aller Würfe
+                finished: Boolean,
+                finishedRank: Number
+                }
+                ],
+                currentPlayerIndex: Number, // Index des aktiven Spielers
+                finishedOrder: [], // Reihenfolge der Beendigung
+                history: [] // Spiel-Historie
+                };
             </div>
 
             <div class="function-box">
@@ -521,11 +521,10 @@ gameState = {
                 <div class="description">Hauptfunktion zur Verarbeitung von Würfen</div>
                 <div class="params">
                     Logik:
-                    <br>1. Prüfe auf Bust (Punkte < 0)
-                    <br>2. Ziehe Punkte ab
-                    <br>3. Speichere Wurf-Details
-                    <br>4. Prüfe auf Spielende (genau 0 Punkte)
-                    <br>5. Rückgabe: { success, message, gameOver? }
+                    <br>1. Prüfe auf Bust (Punkte < 0) <br>2. Ziehe Punkte ab
+                        <br>3. Speichere Wurf-Details
+                        <br>4. Prüfe auf Spielende (genau 0 Punkte)
+                        <br>5. Rückgabe: { success, message, gameOver? }
                 </div>
             </div>
 
@@ -639,7 +638,8 @@ gameState = {
                 <div class="flowchart-item">3️⃣ Spieler wählt Multiplier (Single/Double/Triple)</div>
                 <div class="arrow">↓</div>
                 <div class="flowchart-item">4️⃣ UI.updateThrowsDisplay() zeigt Wurf-Auswahl</div>
-                <div class="arrow">↓</div>                <div class="flowchart-item">5️⃣ Spieler klickt Bestätigung</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">5️⃣ Spieler klickt Bestätigung</div>
                 <div class="arrow">↓</div>
                 <div class="flowchart-item">6️⃣ Game.submitThrow() verarbeitet</div>
                 <div class="arrow">↓</div>
@@ -667,19 +667,19 @@ gameState = {
 
             <h3>Wurf-Verarbeitungs-Details:</h3>
             <div class="code-block">
-Wurf-Details Struktur:
-{
-    baseValue: Number,      // z.B. 20
-    multiplier: 1|2|3,      // Single (1), Double (2), Triple (3)
-    totalPoints: Number     // baseValue * multiplier
-}
+                Wurf-Details Struktur:
+                {
+                baseValue: Number, // z.B. 20
+                multiplier: 1|2|3, // Single (1), Double (2), Triple (3)
+                totalPoints: Number // baseValue * multiplier
+                }
 
-Beispiele:
-- Single 20 = 20 Punkte
-- Double 20 = 40 Punkte (D20)
-- Triple 20 = 60 Punkte (T20)
-- Bullseye außen = 25 Punkte (nur Single)
-- Bullseye innen = 50 Punkte (nur Single)
+                Beispiele:
+                - Single 20 = 20 Punkte
+                - Double 20 = 40 Punkte (D20)
+                - Triple 20 = 60 Punkte (T20)
+                - Bullseye außen = 25 Punkte (nur Single)
+                - Bullseye innen = 50 Punkte (nur Single)
             </div>
         </section>
 
@@ -732,35 +732,35 @@ Beispiele:
                 <div>
                     <h4>App zu Game:</h4>
                     <div class="code-block" style="font-size: 0.8rem;">
-Game.initGame()        ← Setup starten
-Game.getCurrentPlayer() ← Info abrufen
-Game.submitThrow()     ← Wurf senden
-Game.nextPlayer()      ← Spieler wechsel
-Game.getGameState()    ← State abrufen
-Game.endGame()         ← Spiel beenden
+                        Game.initGame() ← Setup starten
+                        Game.getCurrentPlayer() ← Info abrufen
+                        Game.submitThrow() ← Wurf senden
+                        Game.nextPlayer() ← Spieler wechsel
+                        Game.getGameState() ← State abrufen
+                        Game.endGame() ← Spiel beenden
                     </div>
                 </div>
                 <div>
                     <h4>App zu UI:</h4>
                     <div class="code-block" style="font-size: 0.8rem;">
-UI.initDartBoard()     ← Board erstellen
-UI.initMultipliers()   ← Buttons init
-UI.selectThrow()       ← Wurf auswählen
-UI.renderPlayerCards() ← Spieler anzeigen
-UI.showCheckoutInfo()  ← Tipps anzeigen
-UI.resetThrows()       ← State zurücksetzen
+                        UI.initDartBoard() ← Board erstellen
+                        UI.initMultipliers() ← Buttons init
+                        UI.selectThrow() ← Wurf auswählen
+                        UI.renderPlayerCards() ← Spieler anzeigen
+                        UI.showCheckoutInfo() ← Tipps anzeigen
+                        UI.resetThrows() ← State zurücksetzen
                     </div>
                 </div>
             </div>
 
             <h3>State-Management Fluss</h3>
             <div class="code-block">
-App Modul              → UI Modul              → Game Modul
-(Navigation)            (Rendering)             (Logic)
-     ↓                       ↓                        ↓
-User Input          →    Validierung        →    State Update
-     ↓                       ↓                        ↓
-Event Handler      →    Display Update     →    Storage.save()
+                App Modul → UI Modul → Game Modul
+                (Navigation) (Rendering) (Logic)
+                ↓ ↓ ↓
+                User Input → Validierung → State Update
+                ↓ ↓ ↓
+                Event Handler → Display Update → Storage.save()
             </div>
 
             <h3>Cross-Module Kommunikation</h3>
@@ -808,92 +808,92 @@ Event Handler      →    Display Update     →    Storage.save()
 
             <h3>Game State</h3>
             <div class="code-block">
-{
-  title: "Friends Match",
-  startingPoints: 501,
-  currentRound: 5,
-  players: [
-    {
-      name: "Alice",
-      startingPoints: 501,
-      currentPoints: 245,
-      throws: [
-        { baseValue: 20, multiplier: 3, totalPoints: 60 },
-        { baseValue: 19, multiplier: 2, totalPoints: 38 },
-        { baseValue: 17, multiplier: 1, totalPoints: 17 }
-      ],
-      finished: false,
-      finishedRank: null
-    },
-    {
-      name: "Bob",
-      startingPoints: 501,
-      currentPoints: 0,
-      throws: [...],
-      finished: true,
-      finishedRank: 1
-    }
-  ],
-  currentPlayerIndex: 0,
-  finishedOrder: ["Bob", "Charlie"],
-  history: []
-}
+                {
+                title: "Friends Match",
+                startingPoints: 501,
+                currentRound: 5,
+                players: [
+                {
+                name: "Alice",
+                startingPoints: 501,
+                currentPoints: 245,
+                throws: [
+                { baseValue: 20, multiplier: 3, totalPoints: 60 },
+                { baseValue: 19, multiplier: 2, totalPoints: 38 },
+                { baseValue: 17, multiplier: 1, totalPoints: 17 }
+                ],
+                finished: false,
+                finishedRank: null
+                },
+                {
+                name: "Bob",
+                startingPoints: 501,
+                currentPoints: 0,
+                throws: [...],
+                finished: true,
+                finishedRank: 1
+                }
+                ],
+                currentPlayerIndex: 0,
+                finishedOrder: ["Bob", "Charlie"],
+                history: []
+                }
             </div>
 
             <h3>Gespeichertes Spiel (LocalStorage)</h3>
             <div class="code-block">
-{
-  title: "Friends Match",
-  startingPoints: 501,
-  players: [
-    {
-      name: "Alice",
-      finalPoints: 0,
-      throws: [
-        { baseValue: 20, multiplier: 3, totalPoints: 60 },
-        ...
-      ],
-      rank: 2
-    }
-  ],
-  finishedOrder: ["Bob", "Alice", "Charlie"],
-  date: "2026-04-14T10:30:00.000Z",
-  savedAt: "2026-04-14T10:35:00.000Z"
-}
+                {
+                title: "Friends Match",
+                startingPoints: 501,
+                players: [
+                {
+                name: "Alice",
+                finalPoints: 0,
+                throws: [
+                { baseValue: 20, multiplier: 3, totalPoints: 60 },
+                ...
+                ],
+                rank: 2
+                }
+                ],
+                finishedOrder: ["Bob", "Alice", "Charlie"],
+                date: "2026-04-14T10:30:00.000Z",
+                savedAt: "2026-04-14T10:35:00.000Z"
+                }
             </div>
 
             <h3>UI State (selectedThrows)</h3>
             <div class="code-block">
-[
-  {
-    baseValue: 20,      // Dartbrett-Zahl
-    multiplier: 3,      // Single (1), Double (2), Triple (3)
-    totalPoints: 60     // 20 * 3
-  },
-  {
-    baseValue: 19,
-    multiplier: 2,
-    totalPoints: 38
-  }
-]
+                [
+                {
+                baseValue: 20, // Dartbrett-Zahl
+                multiplier: 3, // Single (1), Double (2), Triple (3)
+                totalPoints: 60 // 20 * 3
+                },
+                {
+                baseValue: 19,
+                multiplier: 2,
+                totalPoints: 38
+                }
+                ]
 
-Max. 3 Einträge pro Runde (entspricht 3 Würfen)
+                Max. 3 Einträge pro Runde (entspricht 3 Würfen)
             </div>
 
             <h3>Checkout-Format</h3>
             <div class="code-block">
-Format: "Dart1-Dart2-Dart3"
+                Format: "Dart1-Dart2-Dart3"
 
-Beispiele:
-"20-19-D20"    (20er, 19er, Double 20 = 79 Punkte)
-"T20-T20-D25"  (Triple 20, Triple 20, Double 25 = 165 Punkte)
-"T20-0-50"     (Triple 20, Miss, Bullseye = 60 Punkte)
+                Beispiele:
+                "20-19-D20" (20er, 19er, Double 20 = 79 Punkte)
+                "T20-T20-D25" (Triple 20, Triple 20, Double 25 = 165 Punkte)
+                "T20-0-50" (Triple 20, Miss, Bullseye = 60 Punkte)
 
-Regeln:
-- Letzter Dart MUSS ein Double (D) sein
-- 25 = Außen-Bullseye (nur Single)
-- 50 = Innen-Bullseye (nur Single)
-- Max. 170 Punkte möglich (T20-T20-D25)
+                Regeln:
+                - Letzter Dart MUSS ein Double (D) sein
+                - 25 = Außen-Bullseye (nur Single)
+                - 50 = Innen-Bullseye (nur Single)
+                - Max. 170 Punkte möglich (T20-T20-D25)
             </div>
         </section>
 
@@ -902,27 +902,28 @@ Regeln:
             <h2>7. Technische Details</h2>
 
             <h3>Modul-Pattern (IIFE)</h3>
-            <p>Alle Module verwenden das <span class="highlight">Immediately Invoked Function Expression (IIFE)</span> Pattern:</p>
+            <p>Alle Module verwenden das <span class="highlight">Immediately Invoked Function Expression (IIFE)</span>
+                Pattern:</p>
             <div class="code-block">
-const ModuleName = (() => {
-    // Private Variables
-    let privateVar = {};
+                const ModuleName = (() => {
+                // Private Variables
+                let privateVar = {};
 
-    // Private Functions
-    function privateFunction() { }
+                // Private Functions
+                function privateFunction() { }
 
-    // Public Interface (Return)
-    return {
-        publicMethod() { },
-        publicProperty: value
-    };
-})();
+                // Public Interface (Return)
+                return {
+                publicMethod() { },
+                publicProperty: value
+                };
+                })();
 
-Vorteile:
-✓ Kapslung (private & public Members)
-✓ Namespace-Schutz (keine globalen Variablen)
-✓ Sichere Kommunikation zwischen Modulen
-✓ Leichte Wartung und Tests
+                Vorteile:
+                ✓ Kapslung (private & public Members)
+                ✓ Namespace-Schutz (keine globalen Variablen)
+                ✓ Sichere Kommunikation zwischen Modulen
+                ✓ Leichte Wartung und Tests
             </div>
 
             <h3>Event-Handling</h3>
@@ -981,18 +982,18 @@ Vorteile:
 
             <h3>Dart-Board Implementierung</h3>
             <div class="code-block">
-DART_BOARD = [
-    20, 1, 18, 4, 13, 6, 10, 15, 2, 17,
-    3, 19, 7, 16, 8, 11, 14, 9, 12, 5
-]
+                DART_BOARD = [
+                20, 1, 18, 4, 13, 6, 10, 15, 2, 17,
+                3, 19, 7, 16, 8, 11, 14, 9, 12, 5
+                ]
 
-Diese Anordnung ist die Standard
-Dart-Board Reihenfolge im echten Spiel.
+                Diese Anordnung ist die Standard
+                Dart-Board Reihenfolge im echten Spiel.
 
-Zusätzliche Werte:
-- 25 = Außen-Bullseye (nur Single möglich)
-- 50 = Innen-Bullseye / Bull (nur Single möglich)
-- 0 = Miss (kein Treffer)
+                Zusätzliche Werte:
+                - 25 = Außen-Bullseye (nur Single möglich)
+                - 50 = Innen-Bullseye / Bull (nur Single möglich)
+                - 0 = Miss (kein Treffer)
             </div>
 
             <h3>Multiplier-System</h3>
@@ -1029,48 +1030,35 @@ Zusätzliche Werte:
 
             <h3>Checkout-Berechnung Algorithmus</h3>
             <div class="code-block">
-Eingabe: remainingPoints (z.B. 79)
+                Eingabe: remainingPoints (z.B. 79)
 
-Algorithmus:
-1. Iteriere durch alle 20 Dartbrett-Zahlen
-2. Für jeden 1. Dart: multiplier 1-3 (Single/Double/Triple)
-3. Für jeden 2. Dart: multiplier 1-3
-4. Für jeden 3. Dart: multiplier MUSS 2 sein (Double)
+                Algorithmus:
+                1. Iteriere durch alle 20 Dartbrett-Zahlen
+                2. Für jeden 1. Dart: multiplier 1-3 (Single/Double/Triple)
+                3. Für jeden 2. Dart: multiplier 1-3
+                4. Für jeden 3. Dart: multiplier MUSS 2 sein (Double)
 
-Bedingungen:
-- first + second < remainingPoints
-- first + second + third = remainingPoints
-- Bullseye kann auch passieren
+                Bedingungen:
+                - first + second < remainingPoints - first + second + third=remainingPoints - Bullseye kann auch
+                    passieren Ergebnis: Array möglicher Dart-Kombinationen (max. 20 Stück) </div>
 
-Ergebnis: Array möglicher Dart-Kombinationen
-(max. 20 Stück)
-            </div>
+                    <h3>Player-Wechsel Logik</h3>
+                    <div class="code-block">
+                        // Wechsel zum nächsten Spieler
+                        nextPlayer() {
+                        let nextIndex = (currentIndex + 1) % players.length;
+                        let attempts = 0;
 
-            <h3>Player-Wechsel Logik</h3>
-            <div class="code-block">
-// Wechsel zum nächsten Spieler
-nextPlayer() {
-    let nextIndex = (currentIndex + 1) % players.length;
-    let attempts = 0;
+                        // Überspringe fertige Spieler
+                        while (players[nextIndex].finished && attempts < players.length) { nextIndex=(nextIndex + 1) %
+                            players.length; attempts++; } currentPlayerIndex=nextIndex; } Nutzen: % Operator für
+                            Zirkular-Liste Sicherheit: Schleife bricht nach max. attempts ab </div>
 
-    // Überspringe fertige Spieler
-    while (players[nextIndex].finished && attempts < players.length) {
-        nextIndex = (nextIndex + 1) % players.length;
-        attempts++;
-    }
-
-    currentPlayerIndex = nextIndex;
-}
-
-Nutzen: % Operator für Zirkular-Liste
-Sicherheit: Schleife bricht nach max. attempts ab
-            </div>
-
-            <div class="tip">
-                <strong>💡 LocalStorage Limits:</strong>
-                <br>Typischerweise 5-10 MB pro Domain
-                <br>Für ca. 100-200 Spiele auf einem Gerät ausreichend
-            </div>
+                            <div class="tip">
+                                <strong>💡 LocalStorage Limits:</strong>
+                                <br>Typischerweise 5-10 MB pro Domain
+                                <br>Für ca. 100-200 Spiele auf einem Gerät ausreichend
+                            </div>
         </section>
 
         <!-- FOOTER -->
