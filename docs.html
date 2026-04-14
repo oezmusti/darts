@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Darts Tracker - Dokumentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #0f172a;
+            --card-bg: #1a2849;
+            --bright-blue: #3c82f6;
+            --green-success: #10b981;
+            --yellow-warn: #f59e0b;
+            --red-error: #ef4444;
+            --gray-light: #d1d5db;
+            --white: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2949 100%);
+            color: var(--gray-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 2px solid var(--bright-blue);
+        }
+
+        h1 {
+            color: var(--bright-blue);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            color: var(--yellow-warn);
+            font-size: 1.8rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--yellow-warn);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            color: var(--green-success);
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--yellow-warn);
+            margin-bottom: 1rem;
+        }
+
+        .toc {
+            background: var(--card-bg);
+            border: 1px solid var(--bright-blue);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .toc li {
+            margin: 0.5rem 0;
+        }
+
+        .toc a {
+            color: var(--bright-blue);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: var(--yellow-warn);
+            text-decoration: underline;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border: 1px solid rgba(60, 130, 246, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--bright-blue);
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--bright-blue);
+        }
+
+        .function-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--green-success);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .function-box .name {
+            color: var(--green-success);
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .function-box .description {
+            color: var(--gray-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .function-box .params {
+            color: var(--yellow-warn);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table thead {
+            background: rgba(60, 130, 246, 0.2);
+        }
+
+        table th {
+            color: var(--bright-blue);
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--bright-blue);
+        }
+
+        table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(60, 130, 246, 0.1);
+        }
+
+        table tr:hover {
+            background: rgba(60, 130, 246, 0.1);
+        }
+
+        .architecture-diagram {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px dashed var(--bright-blue);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .flowchart-item {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--green-success);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            color: var(--green-success);
+        }
+
+        .arrow {
+            text-align: center;
+            color: var(--yellow-warn);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .dependency-tree {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            white-space: pre;
+            color: var(--bright-blue);
+            overflow-x: auto;
+        }
+
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--yellow-warn);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+
+        .tip {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--green-success);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+
+        .highlight {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red-error);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--bright-blue);
+            color: var(--gray-light);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1>🎯 Darts Tracker - Dokumentation</h1>
+            <p class="subtitle">Vollständige technische Dokumentation der Anwendung</p>
+            <p>Eine Web-App zum Tracking von Dart-Spielen für bis zu 4 Spieler mit lokaler Speicherung</p>
+        </header>
+
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc">
+            <h3>📑 Inhaltsverzeichnis</h3>
+            <ul>
+                <li><a href="#overview">1. Überblick</a></li>
+                <li><a href="#architecture">2. Architektur</a></li>
+                <li><a href="#modules">3. Module & Funktionen</a></li>
+                <li><a href="#workflows">4. Workflows</a></li>
+                <li><a href="#dependencies">5. Abhängigkeiten</a></li>
+                <li><a href="#data-structures">6. Datenstrukturen</a></li>
+                <li><a href="#technical-details">7. Technische Details</a></li>
+            </ul>
+        </div>
+
+        <!-- 1. OVERVIEW -->
+        <section class="section" id="overview">
+            <h2>1. Überblick</h2>
+
+            <h3>Projektziele</h3>
+            <p>Die Darts Tracker App ermöglicht es, Dart-Spiele digital zu verfolgen, zu speichern und die Statistiken
+                zu analysieren.</p>
+
+            <h3>Hauptfunktionalitäten</h3>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>✅ <strong>Spielverwaltung:</strong> Neue Spiele starten mit bis zu 4 Spielern</li>
+                <li>✅ <strong>Verschiedene Spielmodi:</strong> 501er, 301er, 101er oder benutzerdefinierte Startpunkte
+                </li>
+                <li>✅ <strong>Live-Tracking:</strong> Echtzeit-Verfolgung der Punkte pro Spieler</li>
+                <li>✅ <strong>Wurf-Eingabe:</strong> Intuitives Dartbrett mit Multiplier-Optionen</li>
+                <li>✅ <strong>Bust-Erkennung:</strong> Automatische Erkennung ungültiger Züge</li>
+                <li>✅ <strong>Checkout-Berechnung:</strong> Intelligente Vorschläge für Finishing-Würfe</li>
+                <li>✅ <strong>Spiel-Historie:</strong> Persistente Speicherung aller gespielten Spiele</li>
+                <li>✅ <strong>Responsive Design:</strong> Funktioniert auf Desktop, Tablet und Mobilgeräten</li>
+            </ul>
+
+            <h3>Technologie-Stack</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kategorie</th>
+                        <th>Technologie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Frontend</td>
+                        <td>HTML5, CSS3, Vanilla JavaScript</td>
+                    </tr>
+                    <tr>
+                        <td>Persistierung</td>
+                        <td>Browser LocalStorage API</td>
+                    </tr>
+                    <tr>
+                        <td>Architektur</td>
+                        <td>Modulares JavaScript Pattern (IIFE)</td>
+                    </tr>
+                    <tr>
+                        <td>Datenformat</td>
+                        <td>JSON</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 2. ARCHITECTURE -->
+        <section class="section" id="architecture">
+            <h2>2. Architektur</h2>
+
+            <h3>System-Architektur Überblick</h3>
+            <div class="architecture-diagram">
+                <strong style="color: var(--bright-blue);">Modulare App-Architektur</strong>
+                <div class="flowchart">
+                    <div class="flowchart-item">📄 HTML (UI Structure)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flowchart-item">🎨 CSS (Styling)</div>
+                    <div class="arrow">↓</div>
+                    <div class="flowchart-item">⚙️ JavaScript Modules</div>
+                    <div class="arrow">↓</div>
+                    <div class="flowchart-item">💾 LocalStorage API</div>
+                </div>
+            </div>
+
+            <h3>Module-Struktur</h3>
+            <div class="code-block">
+darts/
+├── index.html          (Hauptseite - UI & HTML)
+├── history.html        (Spiel-Historie)
+├── docs.html          (Diese Dokumentation)
+├── css/
+│   └── styles.css     (Styling)
+├── js/
+│   ├── app.js         (Navigations- & Modal-Logik)
+│   ├── game.js        (Kern-Spiel-Logik)
+│   ├── ui.js          (UI-Rendering & Events)
+│   └── storage.js     (LocalStorage-Manager)
+└── assets/
+    └── icons/         (App-Icons)
+            </div>
+
+            <h3>Modul-Abhängigkeiten</h3>
+            <div class="dependency-tree">
+index.html
+├── (lädt) app.js
+│   ├── nutzt → Game
+│   ├── nutzt → UI
+│   └── nutzt → Storage
+│
+├── (lädt) game.js
+│   └── (unabhängig, pure logic)
+│
+├── (lädt) ui.js
+│   ├── nutzt → Game
+│   └── nutzt → UI
+│
+└── (lädt) storage.js
+    └── (nutzt Browser API: localStorage)
+            </div>
+
+            <h3>Informations-Fluss</h3>
+            <div class="flowchart">
+                <div class="flowchart-item">🎮 Spieler gibt Würfe ein</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">📊 UI wertet Input aus</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">⚙️ Game verarbeitet Logik</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">💾 Storage speichert Ergebnis</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">🎨 UI aktualisiert Anzeige</div>
+            </div>
+        </section>
+
+        <!-- 3. MODULES & FUNCTIONS -->
+        <section class="section" id="modules">
+            <h2>3. Module & Funktionen</h2>
+
+            <!-- APP MODULE -->
+            <h3>📱 app.js - Anwendungs-Controller</h3>
+            <p><strong>Zweck:</strong> Verwaltet Navigation, Menü-Toggle und Modal-Dialoge</p>
+
+            <div class="function-box">
+                <div class="name">toggleNav()</div>
+                <div class="description">Ein/Aus schalten der Navigations-Menü</div>
+                <div class="params">Parameter: keine | Rückgabe: void</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">showAlert(message)</div>
+                <div class="description">Zeigt eine Modal-Benachrichtigung mit OK-Button</div>
+                <div class="params">Parameter: message (String) | Rückgabe: void</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">showConfirm(message)</div>
+                <div class="description">Zeigt einen Bestätigungs-Dialog mit OK/Abbrechen</div>
+                <div class="params">Parameter: message (String) | Rückgabe: Promise&lt;Boolean&gt;</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">App.navigateTo(page)</div>
+                <div class="description">Navigiert zwischen verschiedenen Seiten (home, setup, game)</div>
+                <div class="params">Parameter: page (String) | Rückgabe: void</div>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Hinweis:</strong> Das App-Modul initialisiert auch die Setup-Seite
+                und verwaltet die
+                Spieler-Eingabe sowie die Custom-Punkte-Anzeige.
+            </div>
+
+            <!-- GAME MODULE -->
+            <h3>🎮 game.js - Spiel-Logik</h3>
+            <p><strong>Zweck:</strong> Verwaltung des Spielstatus, Punkt-Berechnung und Checkout-Strategien</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Funktion</th>
+                        <th>Beschreibung</th>
+                        <th>Parameter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>initGame()</strong></td>
+                        <td>Initialisiert ein neues Spiel</td>
+                        <td>title, startingPoints, playerNames</td>
+                    </tr>
+                    <tr>
+                        <td><strong>getCurrentPlayer()</strong></td>
+                        <td>Gibt den aktuellen Spieler zurück</td>
+                        <td>keine</td>
+                    </tr>
+                    <tr>
+                        <td><strong>submitThrow()</strong></td>
+                        <td>Verarbeitet einen Wurf eines Spielers</td>
+                        <td>totalPoints, throwsDetails[]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>nextPlayer()</strong></td>
+                        <td>Wechselt zum nächsten aktiven Spieler</td>
+                        <td>keine</td>
+                    </tr>
+                    <tr>
+                        <td><strong>calculateCheckouts()</strong></td>
+                        <td>Berechnet mögliche Finishing-Würfe</td>
+                        <td>remainingPoints</td>
+                    </tr>
+                    <tr>
+                        <td><strong>endGame()</strong></td>
+                        <td>Beendet das aktuelle Spiel</td>
+                        <td>keine</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Kern-Game-Logik:</h3>
+            <div class="code-block">
+gameState = {
+    title: String,              // Spiel-Name
+    startingPoints: Number,     // Start-Punkte (z.B. 501)
+    currentRound: Number,       // Aktuelle Runde
+    players: [                  // Array von Spielern
+        {
+            name: String,
+            currentPoints: Number,
+            throws: [],         // Array aller Würfe
+            finished: Boolean,
+            finishedRank: Number
+        }
+    ],
+    currentPlayerIndex: Number, // Index des aktiven Spielers
+    finishedOrder: [],          // Reihenfolge der Beendigung
+    history: []                 // Spiel-Historie
+};
+            </div>
+
+            <div class="function-box">
+                <div class="name">Game.submitThrow(totalPoints, throwsDetails)</div>
+                <div class="description">Hauptfunktion zur Verarbeitung von Würfen</div>
+                <div class="params">
+                    Logik:
+                    <br>1. Prüfe auf Bust (Punkte < 0)
+                    <br>2. Ziehe Punkte ab
+                    <br>3. Speichere Wurf-Details
+                    <br>4. Prüfe auf Spielende (genau 0 Punkte)
+                    <br>5. Rückgabe: { success, message, gameOver? }
+                </div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">Game.calculateCheckouts(remainingPoints)</div>
+                <div class="description">Intelligente Checkout-Berechnung für letzte Würfe</div>
+                <div class="params">
+                    Algorithmus:
+                    <br>- Alle möglichen 3er-Dart-Kombinationen durchprobieren
+                    <br>- Der letzte Dart MUSS ein Double sein
+                    <br>- Bullseye (50 Punkte) ist möglich
+                    <br>- Max. 20 Optionen anzeigen
+                </div>
+            </div>
+
+            <!-- UI MODULE -->
+            <h3>🎨 ui.js - Benutzer-Interface</h3>
+            <p><strong>Zweck:</strong> Rendering von UI-Komponenten und Event-Handling</p>
+
+            <div class="function-box">
+                <div class="name">UI.initDartBoard()</div>
+                <div class="description">Erstellt das interaktive Dartbrett mit Zahlen 0-20 + Bullseye</div>
+                <div class="params">Parameter: onNumberClick (Callback) | Rückgabe: void</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">UI.initMultipliers()</div>
+                <div class="description">Initialisiert die Multiplier-Buttons (Single, Double, Triple)</div>
+                <div class="params">Parameter: onMultiplierChange (Callback) | Rückgabe: void</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">UI.selectThrow(value, onThrowSelected)</div>
+                <div class="description">Fügt einen Wurf zur aktuellen Auswahl hinzu (max. 3 pro Runde)</div>
+                <div class="params">Parameter: value (Number), Callback | Rückgabe: void</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">UI.renderPlayerCards(players, currentIndex)</div>
+                <div class="description">Rendert Spieler-Karten mit aktuellem Status und Punkten</div>
+                <div class="params">Parameter: players[], currentIndex | Rückgabe: void</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">UI.showCheckoutInfo(possibleCheckouts)</div>
+                <div class="description">Zeigt mögliche Checkout-Strategien an</div>
+                <div class="params">Parameter: possibleCheckouts[] | Rückgabe: void</div>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ Wichtig:</strong> Die UI verwaltet auch den lokalen State:
+                <br>- selectedThrows[] - Aktuell ausgewählte Würfe
+                <br>- currentMultiplier - Gewählter Multiplier (Single/Double/Triple)
+            </div>
+
+            <!-- STORAGE MODULE -->
+            <h3>💾 storage.js - Daten-Persistierung</h3>
+            <p><strong>Zweck:</strong> Verwaltung des Browser LocalStorage für Spiel-Daten</p>
+
+            <div class="function-box">
+                <div class="name">Storage.saveGame(gameData)</div>
+                <div class="description">Speichert abgeschlossenes Spiel mit Zeitstempel</div>
+                <div class="params">Parameter: gameData (Object) | Rückgabe: Boolean</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">Storage.getAllGames()</div>
+                <div class="description">Lädt alle gespeicherten Spiele aus LocalStorage</div>
+                <div class="params">Parameter: keine | Rückgabe: Array</div>
+            </div>
+
+            <div class="function-box">
+                <div class="name">Storage.deleteGame(index)</div>
+                <div class="description">Löscht ein Spiel nach Index</div>
+                <div class="params">Parameter: index (Number) | Rückgabe: Boolean</div>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Speicher-Orte:</strong>
+                <br>- dartGames (JSON Array mit allen Spielen)
+                <br>- dartSettings (JSON für Einstellungen)
+            </div>
+
+        </section>
+
+        <!-- 4. WORKFLOWS -->
+        <section class="section" id="workflows">
+            <h2>4. Workflows & Prozesse</h2>
+
+            <h3>Workflow 1: Neues Spiel starten</h3>
+            <div class="flowchart">
+                <div class="flowchart-item">1️⃣ Nutzer klickt "Neues Spiel Starten"</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">2️⃣ navigateTo('setup') wird aufgerufen</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">3️⃣ Setup-Formular wird angezeigt</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">4️⃣ Nutzer füllt aus: Titel, Startpunkte, Spieler</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">5️⃣ Game.initGame() wird aufgerufen</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">6️⃣ Spiel-Seite wird angezeigt</div>
+            </div>
+
+            <h3>Workflow 2: Wurf-Verarbeitung</h3>
+            <div class="flowchart">
+                <div class="flowchart-item">1️⃣ Spieler wählt Dartbrett-Nummer</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">2️⃣ UI.selectThrow() speichert Wurf</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">3️⃣ Spieler wählt Multiplier (Single/Double/Triple)</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">4️⃣ UI.updateThrowsDisplay() zeigt Wurf-Auswahl</div>
+                <div class="arrow">↓</div>                <div class="flowchart-item">5️⃣ Spieler klickt Bestätigung</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">6️⃣ Game.submitThrow() verarbeitet</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">7️⃣ Bust-Prüfung erfolgt</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">8️⃣ Punkte werden aktualisiert</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">9️⃣ Game.nextPlayer() wechselt Spieler</div>
+            </div>
+
+            <h3>Workflow 3: Spiel beenden & Speichern</h3>
+            <div class="flowchart">
+                <div class="flowchart-item">1️⃣ Ein Spieler erreicht genau 0 Punkte</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">2️⃣ Spieler wird in finishedOrder registriert</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">3️⃣ Wenn alle Spieler fertig: Spiel beendet</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">4️⃣ Game.endGame() wird aufgerufen</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">5️⃣ Storage.saveGame() speichert alles</div>
+                <div class="arrow">↓</div>
+                <div class="flowchart-item">6️⃣ Ergebnis-Screen wird angezeigt</div>
+            </div>
+
+            <h3>Wurf-Verarbeitungs-Details:</h3>
+            <div class="code-block">
+Wurf-Details Struktur:
+{
+    baseValue: Number,      // z.B. 20
+    multiplier: 1|2|3,      // Single (1), Double (2), Triple (3)
+    totalPoints: Number     // baseValue * multiplier
+}
+
+Beispiele:
+- Single 20 = 20 Punkte
+- Double 20 = 40 Punkte (D20)
+- Triple 20 = 60 Punkte (T20)
+- Bullseye außen = 25 Punkte (nur Single)
+- Bullseye innen = 50 Punkte (nur Single)
+            </div>
+        </section>
+
+        <!-- 5. DEPENDENCIES -->
+        <section class="section" id="dependencies">
+            <h2>5. Abhängigkeiten & Beziehungen</h2>
+
+            <h3>Direkte Abhängigkeiten</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modul</th>
+                        <th>Abhängig von</th>
+                        <th>Art</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>app.js</td>
+                        <td>Game, UI, Storage</td>
+                        <td>Modular - ruft Funktionen auf</td>
+                    </tr>
+                    <tr>
+                        <td>game.js</td>
+                        <td>keine</td>
+                        <td>Unabhängig - Pure Game Logic</td>
+                    </tr>
+                    <tr>
+                        <td>ui.js</td>
+                        <td>Game (gelesen, nicht geschrieben)</td>
+                        <td>Einseitig abhängig</td>
+                    </tr>
+                    <tr>
+                        <td>storage.js</td>
+                        <td>keine</td>
+                        <td>Unabhängig - Browser API</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Funktions-Abhängigkeiten</h3>
+
+            <div class="warning">
+                <strong>⚠️ Kritische Abhängigkeit:</strong><br>
+                Game.submitThrow() MUSS VOR Game.nextPlayer() aufgerufen werden,
+                sonst wird der Status inkonsistent.
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h4>App zu Game:</h4>
+                    <div class="code-block" style="font-size: 0.8rem;">
+Game.initGame()        ← Setup starten
+Game.getCurrentPlayer() ← Info abrufen
+Game.submitThrow()     ← Wurf senden
+Game.nextPlayer()      ← Spieler wechsel
+Game.getGameState()    ← State abrufen
+Game.endGame()         ← Spiel beenden
+                    </div>
+                </div>
+                <div>
+                    <h4>App zu UI:</h4>
+                    <div class="code-block" style="font-size: 0.8rem;">
+UI.initDartBoard()     ← Board erstellen
+UI.initMultipliers()   ← Buttons init
+UI.selectThrow()       ← Wurf auswählen
+UI.renderPlayerCards() ← Spieler anzeigen
+UI.showCheckoutInfo()  ← Tipps anzeigen
+UI.resetThrows()       ← State zurücksetzen
+                    </div>
+                </div>
+            </div>
+
+            <h3>State-Management Fluss</h3>
+            <div class="code-block">
+App Modul              → UI Modul              → Game Modul
+(Navigation)            (Rendering)             (Logic)
+     ↓                       ↓                        ↓
+User Input          →    Validierung        →    State Update
+     ↓                       ↓                        ↓
+Event Handler      →    Display Update     →    Storage.save()
+            </div>
+
+            <h3>Cross-Module Kommunikation</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Von</th>
+                        <th>Nach</th>
+                        <th>Nachricht</th>
+                        <th>Typ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>UI</td>
+                        <td>Game</td>
+                        <td>submitThrow() + nextPlayer()</td>
+                        <td>Synchron</td>
+                    </tr>
+                    <tr>
+                        <td>App</td>
+                        <td>Game</td>
+                        <td>initGame() + endGame()</td>
+                        <td>Synchron</td>
+                    </tr>
+                    <tr>
+                        <td>Game</td>
+                        <td>Storage</td>
+                        <td>saveGame()</td>
+                        <td>Synchron</td>
+                    </tr>
+                    <tr>
+                        <td>App</td>
+                        <td>UI</td>
+                        <td>renderPlayerCards()</td>
+                        <td>Synchron</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 6. DATA STRUCTURES -->
+        <section class="section" id="data-structures">
+            <h2>6. Datenstrukturen</h2>
+
+            <h3>Game State</h3>
+            <div class="code-block">
+{
+  title: "Friends Match",
+  startingPoints: 501,
+  currentRound: 5,
+  players: [
+    {
+      name: "Alice",
+      startingPoints: 501,
+      currentPoints: 245,
+      throws: [
+        { baseValue: 20, multiplier: 3, totalPoints: 60 },
+        { baseValue: 19, multiplier: 2, totalPoints: 38 },
+        { baseValue: 17, multiplier: 1, totalPoints: 17 }
+      ],
+      finished: false,
+      finishedRank: null
+    },
+    {
+      name: "Bob",
+      startingPoints: 501,
+      currentPoints: 0,
+      throws: [...],
+      finished: true,
+      finishedRank: 1
+    }
+  ],
+  currentPlayerIndex: 0,
+  finishedOrder: ["Bob", "Charlie"],
+  history: []
+}
+            </div>
+
+            <h3>Gespeichertes Spiel (LocalStorage)</h3>
+            <div class="code-block">
+{
+  title: "Friends Match",
+  startingPoints: 501,
+  players: [
+    {
+      name: "Alice",
+      finalPoints: 0,
+      throws: [
+        { baseValue: 20, multiplier: 3, totalPoints: 60 },
+        ...
+      ],
+      rank: 2
+    }
+  ],
+  finishedOrder: ["Bob", "Alice", "Charlie"],
+  date: "2026-04-14T10:30:00.000Z",
+  savedAt: "2026-04-14T10:35:00.000Z"
+}
+            </div>
+
+            <h3>UI State (selectedThrows)</h3>
+            <div class="code-block">
+[
+  {
+    baseValue: 20,      // Dartbrett-Zahl
+    multiplier: 3,      // Single (1), Double (2), Triple (3)
+    totalPoints: 60     // 20 * 3
+  },
+  {
+    baseValue: 19,
+    multiplier: 2,
+    totalPoints: 38
+  }
+]
+
+Max. 3 Einträge pro Runde (entspricht 3 Würfen)
+            </div>
+
+            <h3>Checkout-Format</h3>
+            <div class="code-block">
+Format: "Dart1-Dart2-Dart3"
+
+Beispiele:
+"20-19-D20"    (20er, 19er, Double 20 = 79 Punkte)
+"T20-T20-D25"  (Triple 20, Triple 20, Double 25 = 165 Punkte)
+"T20-0-50"     (Triple 20, Miss, Bullseye = 60 Punkte)
+
+Regeln:
+- Letzter Dart MUSS ein Double (D) sein
+- 25 = Außen-Bullseye (nur Single)
+- 50 = Innen-Bullseye (nur Single)
+- Max. 170 Punkte möglich (T20-T20-D25)
+            </div>
+        </section>
+
+        <!-- 7. TECHNICAL DETAILS -->
+        <section class="section" id="technical-details">
+            <h2>7. Technische Details</h2>
+
+            <h3>Modul-Pattern (IIFE)</h3>
+            <p>Alle Module verwenden das <span class="highlight">Immediately Invoked Function Expression (IIFE)</span> Pattern:</p>
+            <div class="code-block">
+const ModuleName = (() => {
+    // Private Variables
+    let privateVar = {};
+
+    // Private Functions
+    function privateFunction() { }
+
+    // Public Interface (Return)
+    return {
+        publicMethod() { },
+        publicProperty: value
+    };
+})();
+
+Vorteile:
+✓ Kapslung (private & public Members)
+✓ Namespace-Schutz (keine globalen Variablen)
+✓ Sichere Kommunikation zwischen Modulen
+✓ Leichte Wartung und Tests
+            </div>
+
+            <h3>Event-Handling</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Trigger</th>
+                        <th>Handler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>click (Dartbrett)</td>
+                        <td>Spieler klickt Zahl</td>
+                        <td>UI.selectThrow()</td>
+                    </tr>
+                    <tr>
+                        <td>click (Multiplier)</td>
+                        <td>Spieler klickt Single/Double/Triple</td>
+                        <td>onMultiplierChange()</td>
+                    </tr>
+                    <tr>
+                        <td>click (Bestätigung)</td>
+                        <td>Spieler klickt ✓</td>
+                        <td>Game.submitThrow()</td>
+                    </tr>
+                    <tr>
+                        <td>click (Löschen)</td>
+                        <td>Spieler klickt Wurf</td>
+                        <td>selectedThrows.splice()</td>
+                    </tr>
+                    <tr>
+                        <td>change (Setup)</td>
+                        <td>Startpunkte ändern</td>
+                        <td>handleCustomPointsChange()</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Error Handling</h3>
+            <div class="warning">
+                <strong>Fehlerbehandlung:</strong>
+                <br>❌ <strong>Bust:</strong> submitThrow() gibt { success: false } zurück
+                <br>❌ <strong>LocalStorage voll:</strong> Try-Catch in Storage Module
+                <br>❌ <strong>Ungültige Eingaben:</strong> Form Validation HTML5
+            </div>
+
+            <h3>Performance-Optimierungen</h3>
+            <ul style="margin-left: 1.5rem;">
+                <li>✅ Checkout-Berechnung limitiert auf 20 Vorschläge</li>
+                <li>✅ DOM-Manipulation nur bei Bedarf</li>
+                <li>✅ Event-Listeners mit stopPropagation()</li>
+                <li>✅ LocalStorage JSON Stringification nur beim Speichern</li>
+            </ul>
+
+            <h3>Dart-Board Implementierung</h3>
+            <div class="code-block">
+DART_BOARD = [
+    20, 1, 18, 4, 13, 6, 10, 15, 2, 17,
+    3, 19, 7, 16, 8, 11, 14, 9, 12, 5
+]
+
+Diese Anordnung ist die Standard
+Dart-Board Reihenfolge im echten Spiel.
+
+Zusätzliche Werte:
+- 25 = Außen-Bullseye (nur Single möglich)
+- 50 = Innen-Bullseye / Bull (nur Single möglich)
+- 0 = Miss (kein Treffer)
+            </div>
+
+            <h3>Multiplier-System</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Multiplier</th>
+                        <th>Name</th>
+                        <th>Formel</th>
+                        <th>Beispiel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Single</td>
+                        <td>Zahl × 1</td>
+                        <td>20 = 20 Punkte</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Double (D)</td>
+                        <td>Zahl × 2</td>
+                        <td>D20 = 40 Punkte</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Triple (T)</td>
+                        <td>Zahl × 3</td>
+                        <td>T20 = 60 Punkte</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Checkout-Berechnung Algorithmus</h3>
+            <div class="code-block">
+Eingabe: remainingPoints (z.B. 79)
+
+Algorithmus:
+1. Iteriere durch alle 20 Dartbrett-Zahlen
+2. Für jeden 1. Dart: multiplier 1-3 (Single/Double/Triple)
+3. Für jeden 2. Dart: multiplier 1-3
+4. Für jeden 3. Dart: multiplier MUSS 2 sein (Double)
+
+Bedingungen:
+- first + second < remainingPoints
+- first + second + third = remainingPoints
+- Bullseye kann auch passieren
+
+Ergebnis: Array möglicher Dart-Kombinationen
+(max. 20 Stück)
+            </div>
+
+            <h3>Player-Wechsel Logik</h3>
+            <div class="code-block">
+// Wechsel zum nächsten Spieler
+nextPlayer() {
+    let nextIndex = (currentIndex + 1) % players.length;
+    let attempts = 0;
+
+    // Überspringe fertige Spieler
+    while (players[nextIndex].finished && attempts < players.length) {
+        nextIndex = (nextIndex + 1) % players.length;
+        attempts++;
+    }
+
+    currentPlayerIndex = nextIndex;
+}
+
+Nutzen: % Operator für Zirkular-Liste
+Sicherheit: Schleife bricht nach max. attempts ab
+            </div>
+
+            <div class="tip">
+                <strong>💡 LocalStorage Limits:</strong>
+                <br>Typischerweise 5-10 MB pro Domain
+                <br>Für ca. 100-200 Spiele auf einem Gerät ausreichend
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>🎯 <strong>Darts Tracker Dokumentation</strong> | Vollständige technische Dokumentation</p>
+            <p>Erstellt: 14. April 2026 | Letzter Update: 14. April 2026</p>
+            <p>Die App verwendet Browser LocalStorage - keine Cloud-Speicherung</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
