@@ -126,6 +126,14 @@ const Game = (() => {
                     const first = BULLET_BOARD[i] * mult1;
                     if (first >= remainingPoints) continue;
 
+                    // Try bullseye finishes for this first dart value
+                    if (remainingPoints - first === 50) {
+                        const checkoutStr = `D${BULLET_BOARD[i]}-50`;
+                        if (!possibleCheckouts.includes(checkoutStr)) {
+                            possibleCheckouts.push(checkoutStr);
+                        }
+                    }
+
                     for (let j = 0; j < BULLET_BOARD.length; j++) {
                         // Second dart
                         for (let mult2 = 1; mult2 <= 3; mult2++) {
@@ -143,14 +151,6 @@ const Game = (() => {
                                 }
                             }
                         }
-                    }
-                }
-
-                // Also try bullseye finishes
-                if (remainingPoints - first === 50) {
-                    const checkoutStr = `D${BULLET_BOARD[i]}-50`;
-                    if (!possibleCheckouts.includes(checkoutStr)) {
-                        possibleCheckouts.push(checkoutStr);
                     }
                 }
             }

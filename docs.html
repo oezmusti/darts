@@ -272,11 +272,22 @@
 
 <body>
     <div class="container">
-        <!-- HEADER -->
+        <!-- Header -->
         <header>
-            <h1>🎯 Darts Tracker - Dokumentation</h1>
-            <p class="subtitle">Vollständige technische Dokumentation der Anwendung</p>
-            <p>Eine Web-App zum Tracking von Dart-Spielen für bis zu 4 Spieler mit lokaler Speicherung</p>
+            <div class="logo"><span class="logo-icon">🎯</span><span class="logo-text">DARTS TRACKER</span></div>
+            <div class="header-menu">
+                <button class="menu-toggle" onclick="toggleNav()">☰</button>
+                <nav class="header-nav hidden" id="headerNavigation">
+                    <div class="header-nav-inner">
+                        <div class="closebutton-nav" onclick="toggleNav()">✕</div>
+                        <div class="nav-items">
+                            <button class="nav-item" onclick="navigateTo('home')">Home</button>
+                            <a href="imprint.html" class="nav-item nav-text">Impressum</a>
+                            <a href="privacy.html" class="nav-item nav-text">Datenschutz</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
         </header>
 
         <!-- TABLE OF CONTENTS -->
@@ -1069,6 +1080,7 @@
         </footer>
 
     </div>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

@@ -187,6 +187,30 @@ body {
     }
 }
 
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
 /* ============================================
    HEADER
    ============================================ */
@@ -242,6 +266,17 @@ header {
     height: 100vh;
     background: rgba(26, 40, 73);
     flex-direction: column;
+    transform: translateX(0);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.header-nav.hidden {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .header-nav-inner {
@@ -265,6 +300,7 @@ header {
     display: flex;
     flex-direction: column;
     margin-top: 5rem;
+    gap: 0;
 }
 
 .nav-item {
@@ -272,14 +308,34 @@ header {
     border: none;
     color: var(--bright-blue);
     cursor: pointer;
-    font-size: 1.5rem;
-    padding: 1rem;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
     text-align: left;
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--bright-blue), transparent);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .nav-item:hover {
-    background: rgba(60, 130, 246, 0.2);
+    background: rgba(60, 130, 246, 0.15);
+    padding-left: 1.5rem;
+}
+
+.nav-item:hover::before {
+    transform: scaleY(1);
 }
 
 .nav-text {
